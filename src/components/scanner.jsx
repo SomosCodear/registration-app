@@ -47,6 +47,13 @@ export class Scanner extends React.Component {
     });
   }
 
+  componentWillUnmount() {
+    const [track] = this._refs.video.srcObject.getTracks();
+    if (track) {
+      track.stop();
+    }
+  }
+
   render() {
     const { onCancel } = this.state;
     const { error } = this.state;
