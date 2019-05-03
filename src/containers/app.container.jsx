@@ -1,7 +1,12 @@
 import React from 'react';
 import { ThemeProvider } from 'styled-components';
 import { theme } from '../styles';
-import { Root, Scanner, Start } from '../components';
+import {
+  Results,
+  Root,
+  Scanner,
+  Start,
+} from '../components';
 
 export class AppContainer extends React.Component {
   constructor(props) {
@@ -15,11 +20,13 @@ export class AppContainer extends React.Component {
     this._screens = {
       start: this._getStartScreen.bind(this),
       scanner: this._getScannerScreen.bind(this),
+      results: this._getResultsScreen.bind(this),
     };
 
     this._openScanner = this._openScanner.bind(this);
     this._saveData = this._saveData.bind(this);
     this._backToStart = this._backToStart.bind(this);
+    this._doSomething = this._doSomething.bind(this);
   }
 
   render() {
@@ -49,17 +56,48 @@ export class AppContainer extends React.Component {
     );
   }
 
+  _getResultsScreen() {
+    const { data } = this.state;
+    return (
+      <Results
+        data={data}
+        onCancel={this._backToStart}
+        onAction={this._doSomething}
+      />
+    );
+  }
+
   _openScanner() {
     this.setState(() => ({ screen: 'scanner' }));
   }
 
   _saveData(data) {
-    // eslint-disable-next-line
-    console.log(data);
-    this._backToStart();
+    const [name, dni,, type] = data.split('\n');
+    this.setState(() => ({
+      screen: 'results',
+      data: {
+        name: {
+          label: 'Name',
+          value: name,
+        },
+        dni: {
+          label: 'DNI',
+          value: dni.split(' ').pop().trim(),
+        },
+        type: {
+          label: 'Type',
+          value: type.replace(/^(\w)/, (match, letter) => letter.toUpperCase()),
+        },
+      },
+    }));
   }
 
   _backToStart() {
     this.setState(() => ({ screen: 'start' }));
+  }
+
+  _doSomething() {
+    // eslint-disable-next-line
+    console.log('Do something!');
   }
 }
