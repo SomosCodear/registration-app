@@ -1,0 +1,74 @@
+/* eslint-disable */
+import React from 'react';
+import PropTypes from 'prop-types';
+import styled from 'styled-components';
+import logo from '../assets/images/logo-main.svg';
+import { Button, Screen } from '../styles';
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+`;
+
+const List = styled.ul`
+  list-style: none;
+  margin: 0;
+  padding: 0;
+`;
+
+const Item = styled.li`
+  padding-bottom: 10px;
+`;
+
+const ItemLabel = styled.strong`
+  font-size: 16px;
+  padding-bottom: 5px;
+  color: ${({ theme }) => theme.palette.generics.balck};
+`;
+
+const ItemValue = styled.p`
+  margin: 0;
+  font-size: 26px;
+  color: ${({ theme }) => theme.palette.primary};
+`;
+
+const Text = styled.p`
+  text-align: center;
+  font-size: 1.2rem;
+  line-height: +1.3;
+  text-align: center;
+`;
+
+const Logo = styled.img`
+  height: 12.5rem;
+  margin-bottom: 5.375rem;
+`;
+
+export const Results = ({ data, onAction, onCancel }) => {
+  return (
+    <Screen>
+      <Container>
+        <Logo src={logo} />
+        <List>
+          {
+            Object.keys(data).map((key) => (
+              <Item key={key}>
+                <ItemLabel>{data[key].label}</ItemLabel>
+                <ItemValue>{data[key].value}</ItemValue>
+              </Item>
+            ))
+          }
+          <Item>
+            <br />
+            <br />
+            <Button large onClick={onAction}>Something!</Button>
+          </Item>
+          <Item>
+            <Button color="secondary" large onClick={onCancel}>Cancel</Button>
+          </Item>
+        </List>
+      </Container>
+    </Screen>
+  );
+};
