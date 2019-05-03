@@ -1,8 +1,7 @@
-/* eslint-disable */
 import React from 'react';
 import { ThemeProvider } from 'styled-components';
 import { theme } from '../styles';
-import { Root, Start } from '../components';
+import { Root, Scanner, Start } from '../components';
 
 export class AppContainer extends React.Component {
   constructor(props) {
@@ -15,9 +14,12 @@ export class AppContainer extends React.Component {
 
     this._screens = {
       start: this._getStartScreen.bind(this),
+      scanner: this._getScannerScreen.bind(this),
     };
 
     this._openScanner = this._openScanner.bind(this);
+    this._saveData = this._saveData.bind(this);
+    this._backToStart = this._backToStart.bind(this);
   }
 
   render() {
@@ -38,7 +40,26 @@ export class AppContainer extends React.Component {
     );
   }
 
+  _getScannerScreen() {
+    return (
+      <Scanner
+        onData={this._saveData}
+        onCancel={this._backToStart}
+      />
+    );
+  }
+
   _openScanner() {
-    console.log('OPEN SCANNER');
+    this.setState(() => ({ screen: 'scanner' }));
+  }
+
+  _saveData(data) {
+    // eslint-disable-next-line
+    console.log(data);
+    this._backToStart();
+  }
+
+  _backToStart() {
+    this.setState(() => ({ screen: 'start' }));
   }
 }
