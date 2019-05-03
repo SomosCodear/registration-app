@@ -1,31 +1,33 @@
 {
-    "name": "registration-app",
-    "description": "",
-    "version": "1.0.0",
-    "repository": "homer0/webconf-registratio-app",
-    "author": "WebConf 2019",
-    "license": "MIT",
-    "dependencies": {
-
-    },
-    "devDependencies": {
-      "jsqr": "1.2.0",
-      "projext": "6.0.3",
-      "projext-plugin-webpack": "8.0.0",
-      "eslint": "5.16.0",
-      "eslint-config-airbnb-base": "13.1.0",
-      "eslint-plugin-import": "2.17.2",
-      "eslint-plugin-node": "8.0.1"
-    },
-    "engine-strict": true,
-    "engines": {
-      "node": ">=10.0.0 <11.0.0"
-    },
-    "main": "src/index.js",
-    "scripts": {
-      "hooks": "./utils/hooks/install",
-      "test": "echo \"nop\"",
-      "lint": "./utils/scripts/lint",
-      "lint:full": "./utils/scripts/lint-full"
-    }
+  "name": "registration-app",
+  "description": "",
+  "version": "1.0.0",
+  "repository": "homer0/webconf-registratio-app",
+  "author": "WebConf 2019",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "jsqr": "1.2.0",
+    "projext": "6.0.3",
+    "projext-plugin-webpack": "8.0.0",
+    "projext-plugin-webpack-react": "4.0.0",
+    "eslint": "5.16.0",
+    "eslint-config-airbnb-base": "13.1.0",
+    "eslint-plugin-import": "2.17.2",
+    "eslint-plugin-node": "8.0.1",
+    "eslint-plugin-react": "7.12.4"
+  },
+  "engine-strict": true,
+  "engines": {
+    "node": ">=10.0.0 <11.0.0"
+  },
+  "main": "src/index.js",
+  "scripts": {
+    "hooks": "./utils/hooks/install",
+    "test": "echo \"nop\"",
+    "lint": "./utils/scripts/lint",
+    "lint:full": "./utils/scripts/lint-full"
+  }
 }
