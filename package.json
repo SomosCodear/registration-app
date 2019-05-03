@@ -9,6 +9,7 @@
 
     },
     "devDependencies": {
+      "jsqr": "1.2.0",
       "projext": "6.0.3",
       "projext-plugin-webpack": "8.0.0",
       "eslint": "5.16.0",
