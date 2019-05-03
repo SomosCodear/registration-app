@@ -1,6 +1,6 @@
 {
   "name": "registration-app",
-  "description": "",
+  "description": "WebConf registration app",
   "version": "1.0.0",
   "repository": "homer0/webconf-registratio-app",
   "author": "WebConf 2019",
@@ -9,6 +9,8 @@
   "devDependencies": {
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
+    "prop-types": "^15.7.2",
+    "styled-components": "^4.2.0",
     "jsqr": "1.2.0",
     "projext": "6.0.3",
     "projext-plugin-webpack": "8.0.0",
@@ -25,6 +27,7 @@
   },
   "main": "src/index.js",
   "scripts": {
+    "start": "projext run",
     "hooks": "./utils/hooks/install",
     "test": "echo \"nop\"",
     "lint": "./utils/scripts/lint",
