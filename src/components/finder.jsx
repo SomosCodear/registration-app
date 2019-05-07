@@ -20,7 +20,7 @@ const InputLabel = styled.label`
 `;
 
 const ActionContainer = styled.div`
-  padding-bottom: 1.8rem;
+  padding-bottom: 1.1rem;
 `;
 
 const Loading = styled.div`
@@ -30,7 +30,19 @@ const Loading = styled.div`
   color: ${({ theme }) => theme.palette.primary};
 `;
 
-export const Finder = ({ searching = false, onSearch, onCancel }) => {
+const Error = styled.div`
+  padding-bottom: 1.8rem;
+  color: ${({ theme }) => theme.palette.error};
+  font-size: 1.3rem;
+  text-align: center;
+`;
+
+export const Finder = ({
+  searching = false,
+  error = true,
+  onSearch,
+  onCancel,
+}) => {
   const [dni, setDNI] = useState('');
   const changeHandler = ({ target }) => setDNI(target.value);
   const submitHandler = (event) => {
@@ -60,6 +72,9 @@ export const Finder = ({ searching = false, onSearch, onCancel }) => {
                     large
                   />
                 </InputContainer>
+                {
+                  error && <Error>No information was found</Error>
+                }
                 <ActionContainer>
                   <Button type="submit" large>Search</Button>
                 </ActionContainer>
@@ -76,6 +91,7 @@ export const Finder = ({ searching = false, onSearch, onCancel }) => {
 
 Finder.propTypes = {
   searching: PropTypes.bool.isRequired,
+  error: PropTypes.bool.isRequired,
   onSearch: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
 };
