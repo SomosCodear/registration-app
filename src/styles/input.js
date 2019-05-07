@@ -19,6 +19,13 @@ export const Input = styled.input`
     font-weight: bold;
     padding: 0.25rem 0.75rem;
   `}
+  ${({ large }) => large && css`
+    font-size: 1.5rem;
+    font-weight: bold;
+    padding: 0.35rem 0.85rem;
+    width: 100%;
+    box-sizing: border-box;
+  `}
   ${({ borderless }) => borderless && css`
     border-width: 0;
   `}
