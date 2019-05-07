@@ -1,3 +1,4 @@
+export { Finder } from './finder';
 export { Results } from './results';
 export { Root } from './root';
 export { Scanner } from './scanner';
