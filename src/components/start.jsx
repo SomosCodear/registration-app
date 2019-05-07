@@ -16,7 +16,7 @@ const Logo = styled.img`
 `;
 
 const ActionContainer = styled.div`
-  padding-bottom: 1.8rem;
+  padding-bottom: 1.1rem;
 `;
 
 export const Start = ({ onScanClick, onSearchClick }) => (
