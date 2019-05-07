@@ -55,7 +55,7 @@ export class Scanner extends React.Component {
   }
 
   render() {
-    const { onCancel } = this.state;
+    const { onCancel } = this.props;
     const { error } = this.state;
     return (
       <Screen>
