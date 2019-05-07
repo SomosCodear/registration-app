@@ -4,6 +4,10 @@ module.exports = {
       html: {
         template: 'index.tpl.html',
       },
+      configuration: {
+        enabled: true,
+        hasFolder: false,
+      },
     },
   },
 };
