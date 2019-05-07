@@ -15,15 +15,25 @@ const Logo = styled.img`
   margin-bottom: 5.375rem;
 `;
 
-export const Start = ({ onClick }) => (
+const ActionContainer = styled.div`
+  padding-bottom: 1.8rem;
+`;
+
+export const Start = ({ onScanClick, onSearchClick }) => (
   <Screen>
     <Container>
       <Logo src={logo} />
-      <Button large onClick={onClick}>Scan!</Button>
+      <ActionContainer>
+        <Button large color="secondary" onClick={onScanClick}>Scan ticket</Button>
+      </ActionContainer>
+      <ActionContainer>
+        <Button large onClick={onSearchClick}>Search DNI</Button>
+      </ActionContainer>
     </Container>
   </Screen>
 );
 
 Start.propTypes = {
-  onClick: PropTypes.func.isRequired,
+  onScanClick: PropTypes.func.isRequired,
+  onSearchClick: PropTypes.func.isRequired,
 };

@@ -24,6 +24,7 @@ export class AppContainer extends React.Component {
     };
 
     this._openScanner = this._openScanner.bind(this);
+    this._openFinder = this._openFinder.bind(this);
     this._saveData = this._saveData.bind(this);
     this._backToStart = this._backToStart.bind(this);
     this._doSomething = this._doSomething.bind(this);
@@ -43,7 +44,10 @@ export class AppContainer extends React.Component {
 
   _getStartScreen() {
     return (
-      <Start onClick={this._openScanner} />
+      <Start
+        onScanClick={this._openScanner}
+        onSearchClick={this._openFinder}
+      />
     );
   }
 
@@ -69,6 +73,10 @@ export class AppContainer extends React.Component {
 
   _openScanner() {
     this.setState(() => ({ screen: 'scanner' }));
+  }
+
+  _openFinder() {
+    this.setState(() => ({ screen: 'finder' }));
   }
 
   _saveData(data) {
