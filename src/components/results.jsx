@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
@@ -33,42 +32,39 @@ const ItemValue = styled.p`
   color: ${({ theme }) => theme.palette.primary};
 `;
 
-const Text = styled.p`
-  text-align: center;
-  font-size: 1.2rem;
-  line-height: +1.3;
-  text-align: center;
-`;
-
 const Logo = styled.img`
   height: 12.5rem;
   margin-bottom: 5.375rem;
 `;
 
-export const Results = ({ data, onAction, onCancel }) => {
-  return (
-    <Screen>
-      <Container>
-        <Logo src={logo} />
-        <List>
-          {
-            Object.keys(data).map((key) => (
-              <Item key={key}>
-                <ItemLabel>{data[key].label}</ItemLabel>
-                <ItemValue>{data[key].value}</ItemValue>
-              </Item>
-            ))
-          }
-          <Item>
-            <br />
-            <br />
-            <Button large onClick={onAction}>Something!</Button>
-          </Item>
-          <Item>
-            <Button color="secondary" large onClick={onCancel}>Cancel</Button>
-          </Item>
-        </List>
-      </Container>
-    </Screen>
-  );
+export const Results = ({ data, onAction, onCancel }) => (
+  <Screen>
+    <Container>
+      <Logo src={logo} />
+      <List>
+        {
+          Object.keys(data).map((key) => (
+            <Item key={key}>
+              <ItemLabel>{data[key].label}</ItemLabel>
+              <ItemValue>{data[key].value}</ItemValue>
+            </Item>
+          ))
+        }
+        <Item>
+          <br />
+          <br />
+          <Button large onClick={onAction}>Something!</Button>
+        </Item>
+        <Item>
+          <Button color="secondary" large onClick={onCancel}>Cancel</Button>
+        </Item>
+      </List>
+    </Container>
+  </Screen>
+);
+
+Results.propTypes = {
+  data: PropTypes.Object.object.isRequired,
+  onAction: PropTypes.func.isRequired,
+  onCancel: PropTypes.func.isRequired,
 };
