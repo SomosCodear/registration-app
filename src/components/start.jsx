@@ -24,7 +24,7 @@ export const Start = ({ onScanClick, onSearchClick }) => (
     <Container>
       <Logo src={logo} />
       <ActionContainer>
-        <Button large color="secondary" onClick={onScanClick}>Scan ticket</Button>
+        <Button large onClick={onScanClick}>Scan ticket</Button>
       </ActionContainer>
       <ActionContainer>
         <Button large onClick={onSearchClick}>Search DNI</Button>
