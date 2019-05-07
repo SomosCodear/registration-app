@@ -17,18 +17,18 @@ const List = styled.ul`
 `;
 
 const Item = styled.li`
-  padding-bottom: 10px;
+  padding-bottom: 0.625rem;
 `;
 
 const ItemLabel = styled.strong`
-  font-size: 16px;
-  padding-bottom: 5px;
+  font-size: 1rem;
+  padding-bottom: 0.3125rem;
   color: ${({ theme }) => theme.palette.generics.balck};
 `;
 
 const ItemValue = styled.p`
   margin: 0;
-  font-size: 26px;
+  font-size: 1.625rem;
   color: ${({ theme }) => theme.palette.primary};
 `;
 
