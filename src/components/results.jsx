@@ -64,7 +64,7 @@ export const Results = ({ data, onAction, onCancel }) => (
 );
 
 Results.propTypes = {
-  data: PropTypes.Object.object.isRequired,
+  data: PropTypes.object.isRequired,
   onAction: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
 };
