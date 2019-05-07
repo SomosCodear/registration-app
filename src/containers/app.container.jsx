@@ -2,6 +2,7 @@ import React from 'react';
 import { ThemeProvider } from 'styled-components';
 import { theme } from '../styles';
 import {
+  Finder,
   Results,
   Root,
   Scanner,
@@ -13,6 +14,8 @@ export class AppContainer extends React.Component {
     super(props);
 
     this.state = {
+      searching: false,
+      searchError: false,
       data: null,
       screen: 'start',
     };
@@ -21,12 +24,14 @@ export class AppContainer extends React.Component {
       start: this._getStartScreen.bind(this),
       scanner: this._getScannerScreen.bind(this),
       results: this._getResultsScreen.bind(this),
+      finder: this._getFinderScreen.bind(this),
     };
 
     this._openScanner = this._openScanner.bind(this);
     this._openFinder = this._openFinder.bind(this);
     this._saveData = this._saveData.bind(this);
     this._backToStart = this._backToStart.bind(this);
+    this._searchDNI = this._searchDNI.bind(this);
     this._doSomething = this._doSomething.bind(this);
   }
 
@@ -71,6 +76,18 @@ export class AppContainer extends React.Component {
     );
   }
 
+  _getFinderScreen() {
+    const { searching, searchError } = this.state;
+    return (
+      <Finder
+        searching={searching}
+        error={searchError}
+        onSearch={this._searchDNI}
+        onCancel={this._backToStart}
+      />
+    );
+  }
+
   _openScanner() {
     this.setState(() => ({ screen: 'scanner' }));
   }
@@ -101,7 +118,16 @@ export class AppContainer extends React.Component {
   }
 
   _backToStart() {
-    this.setState(() => ({ screen: 'start' }));
+    this.setState(() => ({
+      searching: false,
+      searchError: false,
+      screen: 'start',
+    }));
+  }
+
+  _searchDNI(dni) {
+    // eslint-disable-next-line
+    console.log('Search', dni);
   }
 
   _doSomething() {
