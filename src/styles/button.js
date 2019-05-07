@@ -27,4 +27,5 @@ export const Button = styled.button`
     background-color: ${({ theme }) => theme.palette.secondaryDisabled};
     border-color: ${({ theme }) => theme.palette.secondaryDisabled};
   }
+  -webkit-appearance: none;
 `;
