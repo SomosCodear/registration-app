@@ -30,6 +30,7 @@ const ItemValue = styled.p`
   margin: 0;
   font-size: 1.625rem;
   color: ${({ theme }) => theme.palette.primary};
+  text-transform: capitalize;
 `;
 
 const Logo = styled.img`
@@ -43,7 +44,9 @@ export const Results = ({ data, onAction, onCancel }) => (
       <Logo src={logo} />
       <List>
         {
-          Object.keys(data).map((key) => (
+          Object.keys(data)
+          .filter((key) => !!data[key].label)
+          .map((key) => (
             <Item key={key}>
               <ItemLabel>{data[key].label}</ItemLabel>
               <ItemValue>{data[key].value}</ItemValue>
