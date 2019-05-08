@@ -16,7 +16,7 @@
     "autobind-decorator": "2.4.0",
     "recompose": "0.30.0",
     "jsqr": "1.2.0",
-    "projext": "6.0.4",
+    "projext": "6.0.5",
     "projext-plugin-webpack": "8.0.1",
     "projext-plugin-webpack-react": "4.0.1",
     "eslint": "5.16.0",

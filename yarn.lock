@@ -6352,10 +6352,10 @@ projext-plugin-webpack@8.0.1:
     webpack-hot-middleware "2.24.4"
     wootils "^2.2.3"
 
-projext@6.0.4, projext@^6.0.4:
-  version "6.0.4"
-  resolved "https://registry.yarnpkg.com/projext/-/projext-6.0.4.tgz#2bbdd30bcba2feb165b5aa8621b4cbc81f547e33"
-  integrity sha512-KVnyK2u5efQ1SXJ1Wg/9NqwEQXn4rsp6Sn6gFcvpq3rsyyHxV3sjG0dST7f6PHCzG56RTS5iS7vAUYQqFqHhPA==
+projext@6.0.5, projext@^6.0.4:
+  version "6.0.5"
+  resolved "https://registry.yarnpkg.com/projext/-/projext-6.0.5.tgz#43c1bb7705074f28700abc4267aa36c1b1b808a7"
+  integrity sha512-FP311KMkvYQf8DS6JqCCPuCj0C4usvjIxp6Jnz/UI1c2zngaF86Xbl3oa3wmj1CB6SS53KwATmJsH1qRv78Z9A==
   dependencies:
     "@babel/cli" "7.4.4"
     "@babel/core" "7.4.4"
