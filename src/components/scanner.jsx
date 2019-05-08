@@ -35,9 +35,16 @@ export class Scanner extends React.Component {
   }
 
   componentDidMount() {
-    navigator.mediaDevices.getUserMedia({ video: true })
+    navigator.mediaDevices.getUserMedia({
+      video: {
+        facingMode: 'environment',
+      },
+    })
     .then(this._startScanning)
     .catch((error) => {
+      // This is on purpose, no time for a proper error handling... suck it.
+      // eslint-disable-next-line no-console
+      console.error(error);
       this.setState(() => ({
         error: error.message || 'Unable to access the camera',
       }));
