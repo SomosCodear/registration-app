@@ -12,7 +12,7 @@ import {
   Scanner,
   Start,
 } from '../components';
-import { Purchases } from '../services';
+import { Purchases, Tickets } from '../services';
 
 class _AppContainer extends React.Component {
   constructor(props) {
@@ -21,6 +21,9 @@ class _AppContainer extends React.Component {
     this.state = {
       searching: false,
       searchError: '',
+      doingCheckIn: false,
+      checkInError: '',
+      checkInSuccess: false,
       data: null,
       screen: 'start',
     };
@@ -67,12 +70,20 @@ class _AppContainer extends React.Component {
 
   @boundMethod
   _getResultsScreen() {
-    const { data } = this.state;
+    const {
+      data,
+      doingCheckIn,
+      checkInError,
+      checkInSuccess,
+    } = this.state;
     return (
       <Results
+        doingCheckIn={doingCheckIn}
+        error={checkInError}
+        success={checkInSuccess}
         data={data}
         onCancel={this._backToStart}
-        onAction={this._checkIn}
+        onAction={this._requestCheckIn}
       />
     );
   }
@@ -105,6 +116,9 @@ class _AppContainer extends React.Component {
     this.setState(() => ({
       searching: false,
       searchError: '',
+      doingCheckIn: false,
+      checkInError: '',
+      checkInSuccess: false,
       screen: 'start',
     }));
   }
@@ -184,9 +198,33 @@ class _AppContainer extends React.Component {
   }
 
   @boundMethod
+  _requestCheckIn() {
+    this.setState(
+      () => ({
+        doingCheckIn: true,
+        checkInError: '',
+        checkInSuccess: false,
+      }),
+      () => this._checkIn(),
+    );
+  }
+
+  @boundMethod
   _checkIn() {
-    // eslint-disable-next-line
-    console.log('Do something!');
+    const { dependencies: [, tickets] } = this.props;
+    const { data: { ticketId } } = this.state;
+    tickets.checkInTicketById(ticketId.value)
+    .then(() => {
+      this.setState(() => ({
+        doingCheckIn: false,
+        checkInError: '',
+        checkInSuccess: true,
+      }));
+    })
+    .catch((error) => this.setState(() => ({
+      doingCheckIn: false,
+      checkInError: error.message || error.toString(),
+    })));
   }
 }
 
@@ -194,4 +232,6 @@ _AppContainer.propTypes = {
   dependencies: PropTypes.array.isRequired,
 };
 
-export const AppContainer = compose(inject([Purchases]))(_AppContainer);
+export const AppContainer = compose(
+  inject([Purchases, Tickets]),
+)(_AppContainer);
