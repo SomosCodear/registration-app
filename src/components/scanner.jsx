@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import jsQR from 'jsqr';
 import styled from 'styled-components';
+import { boundMethod } from 'autobind-decorator';
 import { Button, Screen } from '../styles';
 
 const Container = styled.div`
@@ -31,10 +32,6 @@ export class Scanner extends React.Component {
     };
 
     this._refs = {};
-
-    this._saveCanvasRef = this._saveCanvasRef.bind(this);
-    this._startScanning = this._startScanning.bind(this);
-    this._scanQR = this._scanQR.bind(this);
   }
 
   componentDidMount() {
@@ -71,10 +68,12 @@ export class Scanner extends React.Component {
     );
   }
 
+  @boundMethod
   _saveCanvasRef(ref) {
     this._refs.canvasElement = ref;
   }
 
+  @boundMethod
   _startScanning(stream) {
     this._refs.canvasContext = this._refs.canvasElement.getContext('2d');
     const video = document.createElement('video');
@@ -85,6 +84,7 @@ export class Scanner extends React.Component {
     requestAnimationFrame(this._scanQR);
   }
 
+  @boundMethod
   _scanQR() {
     let done = false;
     const { video, canvasElement, canvasContext } = this._refs;
