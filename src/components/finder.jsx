@@ -30,7 +30,7 @@ const Loading = styled.div`
   color: ${({ theme }) => theme.palette.primary};
 `;
 
-const Error = styled.div`
+const ErrorMessage = styled.div`
   padding-bottom: 1.8rem;
   color: ${({ theme }) => theme.palette.error};
   font-size: 1.3rem;
@@ -73,7 +73,7 @@ export const Finder = ({
                   />
                 </InputContainer>
                 {
-                  error && <Error>{error}</Error>
+                  error && <ErrorMessage>{error}</ErrorMessage>
                 }
                 <ActionContainer>
                   <Button type="submit" large>Search</Button>
