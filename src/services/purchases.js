@@ -11,7 +11,7 @@ class Purchases {
     this._tickets = tickets;
   }
 
-  searchPurchaseByIdentificationNumbe(identificationNumber) {
+  searchPurchaseByIdentificationNumber(identificationNumber) {
     let customer;
     return this._customers.searchCustomerByIdentificationNumber(identificationNumber)
     .then((response) => {
@@ -27,6 +27,34 @@ class Purchases {
       customer,
       ticket: response,
     }));
+  }
+
+  extractSummary(purchase) {
+    const {
+      customer: {
+        attributes: {
+          fullName: name,
+          identificationNumber,
+        },
+      },
+      ticket: {
+        id: ticketId,
+        relationships: {
+          ticketType: {
+            data: {
+              id: ticketType,
+            },
+          },
+        },
+      },
+    } = purchase;
+
+    return {
+      name,
+      identificationNumber,
+      ticketId,
+      ticketType,
+    };
   }
 }
 
