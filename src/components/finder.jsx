@@ -73,7 +73,7 @@ export const Finder = ({
                   />
                 </InputContainer>
                 {
-                  error && <Error>No information was found</Error>
+                  error && <Error>{error}</Error>
                 }
                 <ActionContainer>
                   <Button type="submit" large>Search</Button>
@@ -91,7 +91,7 @@ export const Finder = ({
 
 Finder.propTypes = {
   searching: PropTypes.bool.isRequired,
-  error: PropTypes.bool.isRequired,
+  error: PropTypes.string.isRequired,
   onSearch: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
 };
