@@ -4,6 +4,7 @@ import { AppAPI } from './appAPI';
 @inject(AppAPI)
 class Customers {
   constructor(appAPI) {
+    this._name = 'customers';
     this._appAPI = appAPI;
   }
 

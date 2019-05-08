@@ -156,10 +156,15 @@ class _AppContainer extends React.Component {
 
       this.setState(() => updates);
     })
-    .catch((error) => this.setState(() => ({
-      seaching: false,
-      error: error.message || error.toString(),
-    })));
+    .catch((error) => {
+      // This is on purpose, no time for a proper error handling... suck it.
+      // eslint-disable-next-line no-console
+      console.error(error);
+      return this.setState(() => ({
+        seaching: false,
+        error: error.message || error.toString(),
+      }));
+    });
   }
 
   @boundMethod

@@ -6,6 +6,7 @@ import { Tickets } from './tickets';
 @inject(AppAPI, Customers, Tickets)
 class Purchases {
   constructor(appAPI, customers, tickets) {
+    this._name = 'purchases';
     this._appAPI = appAPI;
     this._customers = customers;
     this._tickets = tickets;
