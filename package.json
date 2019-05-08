@@ -32,6 +32,7 @@
   },
   "main": "src/index.js",
   "scripts": {
+    "now-build": "projext build --type production",
     "start": "projext run",
     "hooks": "./utils/hooks/install",
     "test": "echo \"nop\"",
