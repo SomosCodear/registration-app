@@ -1,5 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { ThemeProvider } from 'styled-components';
+import inject from 'react-injext';
+import { compose } from 'recompose';
 import { theme } from '../styles';
 import {
   Finder,
@@ -8,8 +11,9 @@ import {
   Scanner,
   Start,
 } from '../components';
+import { Purchases } from '../services';
 
-export class AppContainer extends React.Component {
+class _AppContainer extends React.Component {
   constructor(props) {
     super(props);
 
@@ -97,24 +101,36 @@ export class AppContainer extends React.Component {
   }
 
   _saveData(data) {
-    const [name, dni,, type] = data.split('\n');
+    const [name, dni, ticketId, type] = data.split('\n');
     this.setState(() => ({
       screen: 'results',
-      data: {
-        name: {
-          label: 'Name',
-          value: name,
-        },
-        dni: {
-          label: 'DNI',
-          value: dni.split(' ').pop().trim(),
-        },
-        type: {
-          label: 'Type',
-          value: type.replace(/^(\w)/, (match, letter) => letter.toUpperCase()),
-        },
-      },
+      data: this._createData(
+        name,
+        dni.split(' ').pop().trim(),
+        type.replace(/^(\w)/, (match, letter) => letter.toUpperCase()),
+        ticketId.trim(),
+      ),
     }));
+  }
+
+  _createData(name, dni, type, ticketId) {
+    return {
+      name: {
+        label: 'Name',
+        value: name,
+      },
+      dni: {
+        label: 'DNI',
+        value: dni,
+      },
+      type: {
+        label: 'Type',
+        value: type,
+      },
+      ticketId: {
+        value: ticketId,
+      },
+    };
   }
 
   _backToStart() {
@@ -126,8 +142,52 @@ export class AppContainer extends React.Component {
   }
 
   _searchDNI(dni) {
-    // eslint-disable-next-line
-    console.log('Search', dni);
+    this.setState(
+      () => ({
+        searching: true,
+        searchError: false,
+      }),
+      () => {
+        const { dependencies: [purchases] } = this.props;
+        purchases.searchPurchaseByIdentificationNumbe(dni)
+        .then((result) => {
+          const updates = {
+            searching: false,
+          };
+          if (result) {
+            const {
+              customer: {
+                attributes: {
+                  fullName,
+                  identificationNumber,
+                },
+              },
+              ticket: {
+                id: ticketId,
+                relationships: {
+                  ticketType: {
+                    data: {
+                      id: ticketType,
+                    },
+                  },
+                },
+              },
+            } = result;
+            updates.data = this._createData(
+              fullName,
+              identificationNumber,
+              ticketType,
+              ticketId,
+            );
+            updates.screen = 'results';
+          } else {
+            updates.searchError = true;
+          }
+
+          this.setState(() => updates);
+        });
+      },
+    );
   }
 
   _doSomething() {
@@ -135,3 +195,9 @@ export class AppContainer extends React.Component {
     console.log('Do something!');
   }
 }
+
+_AppContainer.propTypes = {
+  dependencies: PropTypes.array.isRequired,
+};
+
+export const AppContainer = compose(inject([Purchases]))(_AppContainer);
