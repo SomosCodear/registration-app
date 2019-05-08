@@ -32,7 +32,37 @@ const ItemValue = styled.p`
   text-transform: capitalize;
 `;
 
-export const Results = ({ data, onAction, onCancel }) => (
+const Loading = styled.div`
+  font-size: 1.8rem;
+  padding: 1.8rem 0;
+  text-align: center;
+  color: ${({ theme }) => theme.palette.primary};
+`;
+
+const ErrorMessage = styled.div`
+  padding-bottom: 1.8rem;
+  color: ${({ theme }) => theme.palette.error};
+  font-size: 1.3rem;
+  text-align: center;
+`;
+
+const SuccessMessage = styled.div`
+  padding-bottom: 1.8rem;
+  color: ${({ theme }) => theme.palette.primary};
+  font-size: 1.3rem;
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: bold;
+`;
+
+export const Results = ({
+  doingCheckIn,
+  error,
+  success,
+  data,
+  onAction,
+  onCancel,
+}) => (
   <Screen>
     <Container>
       <List>
@@ -46,20 +76,58 @@ export const Results = ({ data, onAction, onCancel }) => (
             </Item>
           ))
         }
-        <Item>
-          <br />
-          <br />
-          <Button large onClick={onAction}>Check in!</Button>
-        </Item>
-        <Item>
-          <Button color="secondary" large onClick={onCancel}>Cancel</Button>
-        </Item>
+        {
+          doingCheckIn ?
+            (
+              <Loading>Loading</Loading>
+            ) :
+            (
+              <>
+                <Item>
+                  {
+                    error ?
+                      (
+                        <ErrorMessage>{error}</ErrorMessage>
+                      ) :
+                      (
+                        <>
+                          <br />
+                          <br />
+                        </>
+                      )
+                  }
+                  {
+                    success ?
+                      (
+                        <SuccessMessage>Success!</SuccessMessage>
+                      ) :
+                      (
+                        <Button large onClick={onAction}>Check in!</Button>
+                      )
+                  }
+
+                </Item>
+                <Item>
+                  <Button color="secondary" large onClick={onCancel}>
+                    {
+                      success ?
+                        'Go Back' :
+                        'Cancel'
+                    }
+                  </Button>
+                </Item>
+              </>
+            )
+        }
       </List>
     </Container>
   </Screen>
 );
 
 Results.propTypes = {
+  doingCheckIn: PropTypes.bool.isRequired,
+  error: PropTypes.string.isRequired,
+  success: PropTypes.bool.isRequired,
   data: PropTypes.object.isRequired,
   onAction: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
