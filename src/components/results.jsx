@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import logo from '../assets/images/logo-main.svg';
 import { Button, Screen } from '../styles';
 
 const Container = styled.div`
@@ -33,15 +32,9 @@ const ItemValue = styled.p`
   text-transform: capitalize;
 `;
 
-const Logo = styled.img`
-  height: 12.5rem;
-  margin-bottom: 5.375rem;
-`;
-
 export const Results = ({ data, onAction, onCancel }) => (
   <Screen>
     <Container>
-      <Logo src={logo} />
       <List>
         {
           Object.keys(data)
@@ -56,7 +49,7 @@ export const Results = ({ data, onAction, onCancel }) => (
         <Item>
           <br />
           <br />
-          <Button large onClick={onAction}>Something!</Button>
+          <Button large onClick={onAction}>Check in!</Button>
         </Item>
         <Item>
           <Button color="secondary" large onClick={onCancel}>Cancel</Button>
