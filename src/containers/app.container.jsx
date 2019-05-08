@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { ThemeProvider } from 'styled-components';
 import inject from 'react-injext';
 import { compose } from 'recompose';
+import { boundMethod } from 'autobind-decorator';
 import { theme } from '../styles';
 import {
   Finder,
@@ -19,24 +20,17 @@ class _AppContainer extends React.Component {
 
     this.state = {
       searching: false,
-      searchError: false,
+      searchError: '',
       data: null,
       screen: 'start',
     };
 
     this._screens = {
-      start: this._getStartScreen.bind(this),
-      scanner: this._getScannerScreen.bind(this),
-      results: this._getResultsScreen.bind(this),
-      finder: this._getFinderScreen.bind(this),
+      start: this._getStartScreen,
+      scanner: this._getScannerScreen,
+      results: this._getResultsScreen,
+      finder: this._getFinderScreen,
     };
-
-    this._openScanner = this._openScanner.bind(this);
-    this._openFinder = this._openFinder.bind(this);
-    this._saveData = this._saveData.bind(this);
-    this._backToStart = this._backToStart.bind(this);
-    this._searchDNI = this._searchDNI.bind(this);
-    this._doSomething = this._doSomething.bind(this);
   }
 
   render() {
@@ -51,6 +45,7 @@ class _AppContainer extends React.Component {
     );
   }
 
+  @boundMethod
   _getStartScreen() {
     return (
       <Start
@@ -60,6 +55,7 @@ class _AppContainer extends React.Component {
     );
   }
 
+  @boundMethod
   _getScannerScreen() {
     return (
       <Scanner
@@ -69,17 +65,19 @@ class _AppContainer extends React.Component {
     );
   }
 
+  @boundMethod
   _getResultsScreen() {
     const { data } = this.state;
     return (
       <Results
         data={data}
         onCancel={this._backToStart}
-        onAction={this._doSomething}
+        onAction={this._checkIn}
       />
     );
   }
 
+  @boundMethod
   _getFinderScreen() {
     const { searching, searchError } = this.state;
     return (
@@ -92,14 +90,65 @@ class _AppContainer extends React.Component {
     );
   }
 
+  @boundMethod
   _openScanner() {
     this.setState(() => ({ screen: 'scanner' }));
   }
 
+  @boundMethod
   _openFinder() {
     this.setState(() => ({ screen: 'finder' }));
   }
 
+  @boundMethod
+  _backToStart() {
+    this.setState(() => ({
+      searching: false,
+      searchError: '',
+      screen: 'start',
+    }));
+  }
+
+  @boundMethod
+  _searchDNI(dni) {
+    this.setState(
+      () => ({
+        searching: true,
+        searchError: '',
+      }),
+      () => this._loadPurchaseByDNI(dni),
+    );
+  }
+
+  _loadPurchaseByDNI(dni) {
+    const { dependencies: [purchases] } = this.props;
+    purchases.searchPurchaseByIdentificationNumber(dni)
+    .then((result) => {
+      const updates = {
+        searching: false,
+      };
+      if (result) {
+        const summary = purchases.extractSummary(result);
+        updates.data = this._createData(
+          summary.name,
+          summary.identificationNumber,
+          summary.ticketType,
+          summary.ticketId,
+        );
+        updates.screen = 'results';
+      } else {
+        updates.searchError = 'No information was found';
+      }
+
+      this.setState(() => updates);
+    })
+    .catch((error) => this.setState(() => ({
+      seaching: false,
+      error: error.message || error.toString(),
+    })));
+  }
+
+  @boundMethod
   _saveData(data) {
     const [name, dni, ticketId, type] = data.split('\n');
     this.setState(() => ({
@@ -113,6 +162,7 @@ class _AppContainer extends React.Component {
     }));
   }
 
+  @boundMethod
   _createData(name, dni, type, ticketId) {
     return {
       name: {
@@ -133,64 +183,8 @@ class _AppContainer extends React.Component {
     };
   }
 
-  _backToStart() {
-    this.setState(() => ({
-      searching: false,
-      searchError: false,
-      screen: 'start',
-    }));
-  }
-
-  _searchDNI(dni) {
-    this.setState(
-      () => ({
-        searching: true,
-        searchError: false,
-      }),
-      () => {
-        const { dependencies: [purchases] } = this.props;
-        purchases.searchPurchaseByIdentificationNumbe(dni)
-        .then((result) => {
-          const updates = {
-            searching: false,
-          };
-          if (result) {
-            const {
-              customer: {
-                attributes: {
-                  fullName,
-                  identificationNumber,
-                },
-              },
-              ticket: {
-                id: ticketId,
-                relationships: {
-                  ticketType: {
-                    data: {
-                      id: ticketType,
-                    },
-                  },
-                },
-              },
-            } = result;
-            updates.data = this._createData(
-              fullName,
-              identificationNumber,
-              ticketType,
-              ticketId,
-            );
-            updates.screen = 'results';
-          } else {
-            updates.searchError = true;
-          }
-
-          this.setState(() => updates);
-        });
-      },
-    );
-  }
-
-  _doSomething() {
+  @boundMethod
+  _checkIn() {
     // eslint-disable-next-line
     console.log('Do something!');
   }
