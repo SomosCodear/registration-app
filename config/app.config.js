@@ -3,7 +3,10 @@ module.exports = {
     url: process.env.API_URL || 'https://checkout.webconf.tech/api',
     endpoints: {
       customers: {
-        search: 'customers',
+        filter: 'customers',
+      },
+      tickets: {
+        filter: 'tickets',
       },
     },
   },
