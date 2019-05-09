@@ -8,7 +8,9 @@
       "use": "@now/static-build"
     }
   ],
-  "env": {
-    "API_URL": "@registration-app-api"
+  "build": {
+    "env": {
+      "API_URL": "@registration-app-api"
+    }
   }
 }
