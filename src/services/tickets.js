@@ -13,13 +13,7 @@ class Tickets {
   }
 
   checkInTicketById(ticketId) {
-    return new Promise((resolve) => {
-      // eslint-disable-next-line
-      console.log('CHECK IN', ticketId);
-      setTimeout(() => {
-        resolve(ticketId);
-      }, 1000);
-    });
+    return this._appAPI.checkInTicketById(ticketId);
   }
 }
 

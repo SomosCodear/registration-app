@@ -35,6 +35,21 @@ class AppAPI extends APIClient {
     return result;
   }
 
+  checkInTicketById(ticketId) {
+    return this.patch(
+      this.endpoint('tickets.checkIn', { ticketId }),
+      {
+        data: {
+          type: 'ticket',
+          attributes: {
+            status: 'validated',
+          },
+          relationships: {},
+        },
+      },
+    );
+  }
+
   fetch(options) {
     return super.fetch(options)
     .then((response) => response.data || response);

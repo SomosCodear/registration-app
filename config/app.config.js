@@ -7,6 +7,7 @@ module.exports = {
       },
       tickets: {
         filter: 'tickets',
+        checkIn: 'tickets/:ticketId',
       },
     },
   },
