@@ -12,7 +12,7 @@ import {
   Scanner,
   Start,
 } from '../components';
-import { Purchases, Tickets } from '../services';
+import { Purchases, Tickets, AppCamera } from '../services';
 
 class _AppContainer extends React.Component {
   constructor(props) {
@@ -60,8 +60,10 @@ class _AppContainer extends React.Component {
 
   @boundMethod
   _getScannerScreen() {
+    const { dependencies: [,, appCamera] } = this.props;
     return (
       <Scanner
+        camera={appCamera}
         onData={this._saveData}
         onCancel={this._backToStart}
       />
@@ -238,5 +240,5 @@ _AppContainer.propTypes = {
 };
 
 export const AppContainer = compose(
-  inject([Purchases, Tickets]),
+  inject([Purchases, Tickets, AppCamera]),
 )(_AppContainer);

@@ -35,11 +35,8 @@ export class Scanner extends React.Component {
   }
 
   componentDidMount() {
-    navigator.mediaDevices.getUserMedia({
-      video: {
-        facingMode: { exact: 'environment' },
-      },
-    })
+    const { camera } = this.props;
+    camera.getStream()
     .then(this._startScanning)
     .catch((error) => {
       // This is on purpose, no time for a proper error handling... suck it.
@@ -49,13 +46,6 @@ export class Scanner extends React.Component {
         error: error.message || 'Unable to access the camera',
       }));
     });
-  }
-
-  componentWillUnmount() {
-    const [track] = this._refs.video.srcObject.getTracks();
-    if (track) {
-      track.stop();
-    }
   }
 
   render() {
@@ -95,7 +85,7 @@ export class Scanner extends React.Component {
   _scanQR() {
     let done = false;
     const { video, canvasElement, canvasContext } = this._refs;
-    if (video.readyState === video.HAVE_ENOUGH_DATA) {
+    if (video.readyState === video.HAVE_ENOUGH_DATA && canvasElement) {
       canvasElement.height = video.videoHeight;
       canvasElement.width = video.videoWidth;
       canvasContext.drawImage(
@@ -128,6 +118,7 @@ export class Scanner extends React.Component {
 }
 
 Scanner.propTypes = {
+  camera: PropTypes.object.isRequired,
   onData: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
 };
