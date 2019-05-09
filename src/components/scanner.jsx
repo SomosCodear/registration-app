@@ -37,7 +37,7 @@ export class Scanner extends React.Component {
   componentDidMount() {
     navigator.mediaDevices.getUserMedia({
       video: {
-        facingMode: 'environment',
+        facingMode: { exact: 'environment' },
       },
     })
     .then(this._startScanning)
