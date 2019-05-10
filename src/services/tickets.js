@@ -8,6 +8,10 @@ class Tickets {
     this._appAPI = appAPI;
   }
 
+  getTicketById(ticketId) {
+    return this._appAPI.filterTickets({ id: ticketId }, true);
+  }
+
   searchTicketByCustomerId(customerId) {
     return this._appAPI.filterTickets({ customerId }, true);
   }

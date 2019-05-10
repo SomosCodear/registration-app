@@ -6,11 +6,7 @@ import { compose } from 'recompose';
 import { boundMethod } from 'autobind-decorator';
 import { theme } from '../styles';
 import {
-  Finder,
-  Results,
-  Root,
-  Scanner,
-  Start,
+  Finder, Results, Root, Scanner, Start,
 } from '../components';
 import { Purchases, Tickets, AppCamera } from '../services';
 
@@ -41,42 +37,28 @@ class _AppContainer extends React.Component {
     const screenFn = this._screens[screen];
     return (
       <ThemeProvider theme={theme}>
-        <Root>
-          {screenFn()}
-        </Root>
+        <Root>{screenFn()}</Root>
       </ThemeProvider>
     );
   }
 
   @boundMethod
   _getStartScreen() {
-    return (
-      <Start
-        onScanClick={this._openScanner}
-        onSearchClick={this._openFinder}
-      />
-    );
+    return <Start onScanClick={this._openScanner} onSearchClick={this._openFinder} />;
   }
 
   @boundMethod
   _getScannerScreen() {
-    const { dependencies: [,, appCamera] } = this.props;
-    return (
-      <Scanner
-        camera={appCamera}
-        onData={this._saveData}
-        onCancel={this._backToStart}
-      />
-    );
+    const {
+      dependencies: [, , appCamera],
+    } = this.props;
+    return <Scanner camera={appCamera} onData={this._saveData} onCancel={this._backToStart} />;
   }
 
   @boundMethod
   _getResultsScreen() {
     const {
-      data,
-      doingCheckIn,
-      checkInError,
-      checkInSuccess,
+      data, doingCheckIn, checkInError, checkInSuccess,
     } = this.state;
     return (
       <Results
@@ -137,8 +119,11 @@ class _AppContainer extends React.Component {
   }
 
   _loadPurchaseByDNI(dni) {
-    const { dependencies: [purchases] } = this.props;
-    purchases.searchPurchaseByIdentificationNumber(dni)
+    const {
+      dependencies: [purchases],
+    } = this.props;
+    purchases
+    .searchPurchaseByIdentificationNumber(dni)
     .then((result) => {
       const updates = {
         searching: false,
@@ -150,6 +135,7 @@ class _AppContainer extends React.Component {
           summary.identificationNumber,
           summary.ticketType,
           summary.ticketId,
+          summary.comments,
         );
         updates.screen = 'results';
       } else {
@@ -176,16 +162,56 @@ class _AppContainer extends React.Component {
       screen: 'results',
       data: this._createData(
         name,
-        dni.split(' ').pop().trim(),
+        dni
+        .split(' ')
+        .pop()
+        .trim(),
         type.replace(/^(\w)/, (match, letter) => letter.toUpperCase()),
         ticketId.trim(),
       ),
     }));
+
+    this._loadTicketComments(ticketId);
+  }
+
+  _loadTicketComments(ticketId) {
+    const {
+      dependencies: [, tickets],
+    } = this.props;
+    tickets
+    .getTicketById(ticketId)
+    .then((ticket) => {
+      const {
+        attributes: { comments },
+      } = ticket;
+      if (comments) {
+        this._addCommentsForTicket(comments);
+      }
+    })
+    .catch((error) => {
+      // This is on purpose, no time for a proper error handling... suck it.
+      // eslint-disable-next-line no-console
+      console.error(error);
+    });
+  }
+
+  _addCommentsForTicket(comments) {
+    const { data } = this.state;
+    const newData = Object.assign({}, data, {
+      comments: {
+        label: 'Comments',
+        value: comments,
+      },
+    });
+
+    this.setState(() => ({
+      data: newData,
+    }));
   }
 
   @boundMethod
-  _createData(name, dni, type, ticketId) {
-    return {
+  _createData(name, dni, type, ticketId, comments) {
+    const newData = {
       name: {
         label: 'Name',
         value: name,
@@ -202,6 +228,15 @@ class _AppContainer extends React.Component {
         value: ticketId,
       },
     };
+
+    if (comments) {
+      newData.comments = {
+        label: 'Comments',
+        value: comments,
+      };
+    }
+
+    return newData;
   }
 
   @boundMethod
@@ -218,9 +253,14 @@ class _AppContainer extends React.Component {
 
   @boundMethod
   _checkIn() {
-    const { dependencies: [, tickets] } = this.props;
-    const { data: { ticketId } } = this.state;
-    tickets.checkInTicketById(ticketId.value)
+    const {
+      dependencies: [, tickets],
+    } = this.props;
+    const {
+      data: { ticketId },
+    } = this.state;
+    tickets
+    .checkInTicketById(ticketId.value)
     .then(() => {
       this.setState(() => ({
         doingCheckIn: false,
@@ -231,7 +271,8 @@ class _AppContainer extends React.Component {
     .catch((error) => this.setState(() => ({
       doingCheckIn: false,
       checkInError: error.message || error.toString(),
-    })));
+    })),
+    );
   }
 }
 
@@ -239,6 +280,4 @@ _AppContainer.propTypes = {
   dependencies: PropTypes.array.isRequired,
 };
 
-export const AppContainer = compose(
-  inject([Purchases, Tickets, AppCamera]),
-)(_AppContainer);
+export const AppContainer = compose(inject([Purchases, Tickets, AppCamera]))(_AppContainer);

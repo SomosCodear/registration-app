@@ -14,7 +14,8 @@ class Purchases {
 
   searchPurchaseByIdentificationNumber(identificationNumber) {
     let customer;
-    return this._customers.searchCustomerByIdentificationNumber(identificationNumber)
+    return this._customers
+    .searchCustomerByIdentificationNumber(identificationNumber)
     .then((response) => {
       let nextStep;
       if (response) {
@@ -24,27 +25,25 @@ class Purchases {
 
       return nextStep;
     })
-    .then((response) => (response && {
-      customer,
-      ticket: response,
-    }));
+    .then(
+      (response) => response && {
+        customer,
+        ticket: response,
+      },
+    );
   }
 
   extractSummary(purchase) {
     const {
       customer: {
-        attributes: {
-          fullName: name,
-          identificationNumber,
-        },
+        attributes: { fullName: name, identificationNumber },
       },
       ticket: {
         id: ticketId,
+        attributes: { comments },
         relationships: {
           ticketType: {
-            data: {
-              id: ticketType,
-            },
+            data: { id: ticketType },
           },
         },
       },
@@ -55,6 +54,7 @@ class Purchases {
       identificationNumber,
       ticketId,
       ticketType,
+      comments,
     };
   }
 }
