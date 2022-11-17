@@ -1,0 +1,5 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+git diff --name-only --cached | egrep 'package.json' && npm ls
+npx lint-staged
