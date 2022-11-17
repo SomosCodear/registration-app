@@ -1,10 +1,9 @@
 import { createGlobalStyle } from 'styled-components';
-import bahnschrift from '../assets/fonts/bahnschrift.ttf';
 
 export const GlobalStyles = createGlobalStyle`
   @font-face {
     font-family: 'Bahnschrift';
-    src: url('${bahnschrift}') format('truetype');
+    src: url('/assets/fonts/bahnschrift.ttf') format('truetype');
     font-weight: 1 999;
     font-display: swap;
   }
