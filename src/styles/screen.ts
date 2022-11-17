@@ -7,4 +7,6 @@ export const Screen = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  overflow-y: auto;
+  min-height: 0;
 `;
