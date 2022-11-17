@@ -1,7 +1,11 @@
 import { useEffect } from 'react';
 import type { NextPage } from 'next';
 import { useRouter } from 'next/router';
-import { useSearchTicketQuery, useRedeemTicketMutation } from 'services/api';
+import {
+  useSearchTicketQuery,
+  useRedeemTicketMutation,
+  extractApiError,
+} from 'services/api';
 import { Results } from 'components/results';
 
 const TicketPage: NextPage = () => {
@@ -24,16 +28,18 @@ const TicketPage: NextPage = () => {
   ] = useRedeemTicketMutation();
 
   const error = failedToLoad
-    ? String(loadError)
+    ? extractApiError(loadError)
     : failedToRedeem
-    ? String(redeemError)
+    ? extractApiError(redeemError!)
     : '';
 
-  console.log({ redeemResponse });
+  const redeemedAlready =
+    data?.ticketStatus === 'redeemed' || redeemResponse?.redeemed === false;
+
   return (
     <Results
       doingCheckIn={isRedeeming}
-      redeemed={redeemResponse?.redeemed === false}
+      redeemed={redeemedAlready}
       error={error}
       data={data || {}}
       success={isSuccess}
