@@ -1,5 +1,10 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import type { SearchTicketOptions, SearchTicketResponse } from './apiTypes';
+import type {
+  SearchTicketOptions,
+  SearchTicketResponse,
+  RedeemTicketOptions,
+  RedeemTicketResponse,
+} from './apiTypes';
 
 export const checkinApi = createApi({
   reducerPath: 'gatewayApi',
@@ -15,9 +20,14 @@ export const checkinApi = createApi({
         };
       },
     }),
+    redeemTicket: builder.mutation<RedeemTicketResponse, RedeemTicketOptions>({
+      query: (opts) => ({
+        url: `tickets/redeem/${opts.ticketId}`,
+      }),
+    }),
   }),
 });
 
 export type CheckinAPIType = typeof checkinApi;
 
-export const { useSearchTicketQuery } = checkinApi;
+export const { useSearchTicketQuery, useRedeemTicketMutation } = checkinApi;

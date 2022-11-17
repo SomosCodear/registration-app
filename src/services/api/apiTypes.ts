@@ -32,3 +32,11 @@ export type SearchTicketResponse = {
   ticketStatus: string;
 } & PossibleObj<SearchTicketPreferenceProps> &
   PossibleObj<SearchTicketAttendeeProps>;
+
+export type RedeemTicketOptions = {
+  ticketId: string;
+};
+
+export type RedeemTicketResponse = {
+  redeemed: boolean;
+};
