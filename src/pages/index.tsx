@@ -1,6 +1,6 @@
 import type { NextPage } from 'next';
 import { useRouter } from 'next/router';
-import { Start } from 'components/start';
+import { Start } from 'components';
 
 const HomePage: NextPage = () => {
   const router = useRouter();

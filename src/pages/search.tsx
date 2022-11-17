@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import type { NextPage } from 'next';
 import { useRouter } from 'next/router';
-import { Finder } from 'components/finder';
+import { Finder } from 'components';
 import { useSearchTicketQuery, extractApiError } from 'services/api';
 
 const SearchPage: NextPage = () => {

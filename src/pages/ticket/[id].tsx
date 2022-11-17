@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import type { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import {
@@ -6,7 +5,7 @@ import {
   useRedeemTicketMutation,
   extractApiError,
 } from 'services/api';
-import { Results } from 'components/results';
+import { Results } from 'components';
 
 const TicketPage: NextPage = () => {
   const router = useRouter();
