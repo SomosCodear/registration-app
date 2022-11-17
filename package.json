@@ -1,42 +1,64 @@
 {
   "name": "registration-app",
   "description": "WebConf registration app",
-  "version": "1.0.1",
+  "version": "2.0.0",
   "repository": "homer0/webconf-registratio-app",
-  "author": "WebConf 2019",
+  "author": "WebConf 2022",
   "license": "MIT",
-  "dependencies": {},
+  "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^6.2.1",
+    "@fortawesome/free-brands-svg-icons": "^6.2.1",
+    "@fortawesome/free-solid-svg-icons": "^6.2.1",
+    "@fortawesome/react-fontawesome": "0.2.0",
+    "jsqr": "1.4.0",
+    "next": "12.3.3",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "styled-components": "^5.3.6",
+    "styled-normalize": "^8.0.7"
+  },
   "devDependencies": {
-    "react": "^16.8.6",
-    "react-dom": "^16.8.6",
-    "prop-types": "^15.7.2",
-    "styled-components": "^4.2.0",
-    "wootils": "^2.2.3",
-    "react-injext": "0.1.1",
-    "autobind-decorator": "2.4.0",
-    "recompose": "0.30.0",
-    "jsqr": "1.2.0",
-    "projext": "6.0.5",
-    "projext-plugin-webpack": "8.0.1",
-    "projext-plugin-webpack-react": "4.0.1",
-    "eslint": "5.16.0",
-    "eslint-config-airbnb-base": "13.1.0",
-    "eslint-plugin-import": "2.17.2",
-    "eslint-plugin-node": "8.0.1",
-    "eslint-plugin-react": "7.12.4",
-    "babel-eslint": "10.0.1"
+    "babel-plugin-styled-components": "^2.0.7",
+    "@commitlint/cli": "^17.2.0",
+    "@commitlint/config-conventional": "^17.2.0",
+    "@types/node": "18.11.9",
+    "@types/react": "18.0.25",
+    "@types/react-dom": "18.0.9",
+    "@types/styled-components": "^5.1.26",
+    "eslint": "8.27.0",
+    "eslint-config-next": "12.3.3",
+    "husky": "^8.0.2",
+    "is-ci": "^3.0.1",
+    "lint-staged": "^13.0.3",
+    "prettier": "^2.7.1",
+    "typescript": "4.9.3"
   },
   "engine-strict": true,
   "engines": {
-    "node": ">=10.0.0 <11.0.0"
+    "node": ">=16"
   },
-  "main": "src/index.js",
   "scripts": {
-    "now-build": "projext build --type production",
-    "start": "projext run",
-    "hooks": "./utils/hooks/install",
-    "test": "echo \"nop\"",
-    "lint": "./utils/scripts/lint",
-    "lint:full": "./utils/scripts/lint-full"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "prepare": "is-ci || husky install",
+    "lint": "next lint",
+    "lint:file": "eslint --max-warnings 0 --fix $@",
+    "format": "npm run format:file -- ./**/*.{ts,tsx,js}",
+    "format:file": "prettier --write $@",
+    "types:check": "tsc --noEmit"
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
+  "lint-staged": {
+    "*.{ts,tsx,js,json,css,scss,md}": [
+      "npm run format:file"
+    ],
+    "*.{ts,tsx,js}": [
+      "npm run lint:file"
+    ]
   }
 }
