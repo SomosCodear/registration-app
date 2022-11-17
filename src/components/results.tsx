@@ -95,6 +95,7 @@ const List = styled.ul`
 
 const Item = styled.li`
   padding-bottom: 0.625rem;
+  overflow-wrap: break-word;
 `;
 
 const ItemLabel = styled.strong`
