@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import type { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { Scanner } from 'components';
-import { AppCamera } from 'services/appCamera';
+import { AppCamera } from 'services';
 
 const ScanPage: NextPage = () => {
   const router = useRouter();

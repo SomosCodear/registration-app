@@ -1,10 +1,6 @@
 import type { NextPage } from 'next';
 import { useRouter } from 'next/router';
-import {
-  useSearchTicketQuery,
-  useRedeemTicketMutation,
-  extractApiError,
-} from 'services/api';
+import { useSearchTicketQuery, useRedeemTicketMutation, extractApiError } from 'services';
 import { Results } from 'components';
 
 const TicketPage: NextPage = () => {
